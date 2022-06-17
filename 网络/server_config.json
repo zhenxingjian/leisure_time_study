@@ -1,0 +1,53 @@
+{
+    "log": { // log start
+        "access": "/etc/v2ray/access.log", // PATH
+        "error": "/etc/v2ray/error.log",
+        "loglevel": "warning"
+    }, // log end
+    "routing": {
+        "domainStrategy": "AsIs",
+        "rules": [
+            {
+                "type": "field",
+                "ip": [
+                    "geoip:private"
+                ],
+                "outboundTag": "block"
+            }
+        ]
+    },
+    "inbounds": [
+        {
+            "listen": "0.0.0.0",
+            "port": 19999, //this port is changeable
+            "protocol": "vmess",
+            "settings": {
+                "clients": [
+                    {
+                        "id": "77422a27-272b-437b-a4ac-6d14fbefe38c",
+                        "alterId": 0 // this cannot change in the current version, not sure why
+                    }
+                ]
+            },
+            "streamSettings": {
+                "network": "ws",
+                "security": "none",
+                "wsSettings": {"path": "/anything"} // this part can change /anything to actually anything, like /be /creative
+            }
+        },
+        {
+            "port": 29999, // SS port is changeable
+            "protocol": "shadowsocks",
+            "settings": {
+                "method": "aes-256-gcm", // encrupt method
+                "password": "ThisIsPassWordAndChangeIt" // password needs to be changed
+            }
+        }
+    ],
+    "outbounds": [
+        {
+            "protocol": "freedom",
+            "tag": "direct"
+        }
+    ]
+}
